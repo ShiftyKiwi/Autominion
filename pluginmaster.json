@@ -1,0 +1,23 @@
+[
+  {
+    "Author": "Nick",
+    "Name": "Autominion",
+    "Punchline": "Summons or dismisses minions based on housing state.",
+    "Description": "Automatically summons a minion on housing exteriors and dismisses it inside housing interiors or apartments. Main command: /autominion",
+    "Changelog": "Initial release targeting FFXIV patch 7.45, Dalamud API 14, and .NET 10.",
+    "InternalName": "Autominion",
+    "AssemblyVersion": "0.0.0.1",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 14,
+    "RepoUrl": "https://github.com/ShiftyKiwi/Autominion",
+    "Tags": [
+      "housing",
+      "minion",
+      "automation"
+    ],
+    "DownloadLinkInstall": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.1/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.1/latest.zip",
+    "DownloadLinkTesting": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.1/latest.zip",
+    "IsTestingExclusive": false
+  }
+]
