@@ -2,8 +2,8 @@
   {
     "Author": "Shifty Kiwi",
     "Name": "Autominion",
-    "Punchline": "Summons or dismisses minions based on housing state.",
-    "Description": "Automatically dismisses a minion when entering a housing plot and summons one when leaving a housing plot. Main command: /autominion",
+    "Punchline": "Dismisses on plot entry, summons on plot exit.",
+    "Description": "Automatically dismisses a minion when entering a housing plot and summons one when leaving that plot. Main command: /autominion",
     "Changelog": "Changes behavior to dismiss on plot entry and summon on plot exit, while keeping the owned-minion selector and current patch 7.45 / API 14 / .NET 10 target.",
     "InternalName": "Autominion",
     "AssemblyVersion": "0.0.0.4",

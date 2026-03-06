@@ -1,12 +1,13 @@
 # Autominion
 
-Autominion is a Dalamud plugin for FFXIV that reacts to local housing state changes.
+Autominion is a Dalamud plugin for FFXIV that dismisses your minion when you step onto a housing plot and summons it again when you leave that plot.
 
-Current behavior:
-- Summons a minion when you are on a housing exterior plot or yard.
-- Dismisses a minion when you enter a housing interior.
-- Dismisses a minion when you enter an apartment.
-- Waits for a safe post-zone window before acting.
+## Current behavior
+
+- Detects transitions onto and off of housing plots.
+- Dismisses the currently summoned minion when you enter a plot.
+- Summons your selected owned minion, or Minion Roulette if configured, when you leave a plot.
+- Uses delayed post-transition action checks to avoid firing during bad game states.
 
 ## Commands
 
@@ -14,29 +15,27 @@ Current behavior:
 - `/autominion config` opens settings.
 - `/autominion rescan` forces an immediate housing-state recheck.
 
-## Current scope
+## Requirements
 
-This version is built for:
 - Dalamud API 14
 - .NET 10
-- FFXIV patch 7.45 validation target
-
-The housing detection path is implemented with `FFXIVClientStructs` housing manager data. Summon timing is modeled after MinionRoulette-style delayed execution after zone and state changes.
+- FFXIV patch 7.45 target
 
 ## Build
 
-1. Open [Autominion.sln](c:\Users\Nick\Documents\FFXIVPlugins\Repos\Autominion\Autominion.sln) in Visual Studio or Rider.
+1. Open `Autominion.sln` in Visual Studio or Rider.
 2. Build the solution.
-3. The dev output is [Autominion.dll](c:\Users\Nick\Documents\FFXIVPlugins\Repos\Autominion\Autominion\bin\x64\Debug\Autominion.dll).
+3. The dev output is `Autominion/bin/x64/Debug/Autominion.dll`.
 
 ## In-game testing
 
-Recommended test cases:
-- Enter a housing exterior from a non-housing zone.
-- Enter a private or FC house interior.
-- Enter an apartment.
-- Move around within the same housing area and confirm it does not spam actions.
+Recommended checks:
+- Stand in a housing ward street, then step onto a plot and confirm dismissal.
+- Step back off the plot and confirm summon.
+- Pick a specific owned minion in settings and verify that minion is the one summoned after plot exit.
+- Enable roulette fallback and confirm it only applies when no specific minion is selected or the specific summon path fails.
 
-## Known focus area
+## Notes
 
-The housing transition detection is the most certain part of the implementation. The dismiss path should be verified in-game on 7.45, since that action flow was not directly available from the comparison repos.
+- The minion selector only shows owned minions.
+- The plugin is built around plot-entry and plot-exit transitions, not general housing-zone entry.
