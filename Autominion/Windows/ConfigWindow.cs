@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
@@ -10,7 +11,9 @@ namespace Autominion.Windows;
 public sealed class ConfigWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
+    private readonly List<(uint RowId, string Name)> ownedMinions = [];
     private string minionFilter = string.Empty;
+    private bool needsRefresh = true;
 
     public ConfigWindow(Plugin plugin) : base("Autominion Settings###AutominionConfig")
     {
@@ -39,30 +42,58 @@ public sealed class ConfigWindow : Window, IDisposable
 
         ImGui.Separator();
         ImGui.Text("Preferred summon target");
+
+        if (ImGui.Button("Refresh Owned Minions"))
+        {
+            needsRefresh = true;
+        }
+
         ImGui.SetNextItemWidth(-1f);
-        ImGui.InputTextWithHint("##minionFilter", "Filter minions", ref minionFilter, 128);
+        ImGui.InputTextWithHint("##minionFilter", "Filter owned minions", ref minionFilter, 128);
+
+        RefreshOwnedMinionsIfNeeded();
 
         var selectedLabel = plugin.MinionController.GetConfiguredMinionLabel();
         if (ImGui.BeginCombo("Select Minion", selectedLabel))
         {
             DrawMinionOption("Minion Roulette", 0, configuration.SelectedMinionId == 0);
 
-            foreach (var companion in Plugin.DataManager.GetExcelSheet<Companion>()
-                         .Where(c => c.RowId > 0 && !c.Singular.IsEmpty)
-                         .OrderBy(c => c.Singular.ToString()))
+            foreach (var (rowId, name) in ownedMinions)
             {
-                var label = $"{companion.Singular}##{companion.RowId}";
-                if (!string.IsNullOrWhiteSpace(minionFilter) &&
-                    !companion.Singular.ToString().Contains(minionFilter, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrWhiteSpace(minionFilter) && !name.Contains(minionFilter, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
-                DrawMinionOption(label, companion.RowId, configuration.SelectedMinionId == companion.RowId);
+                DrawMinionOption($"{name}##{rowId}", rowId, configuration.SelectedMinionId == rowId);
             }
 
             ImGui.EndCombo();
         }
+    }
+
+    private void RefreshOwnedMinionsIfNeeded()
+    {
+        if (!needsRefresh)
+        {
+            return;
+        }
+
+        ownedMinions.Clear();
+
+        foreach (var companion in Plugin.DataManager.GetExcelSheet<Companion>()
+                     .Where(c => c.RowId > 0 && !c.Singular.IsEmpty)
+                     .OrderBy(c => c.Singular.ToString()))
+        {
+            if (!Plugin.UnlockState.IsCompanionUnlocked(companion))
+            {
+                continue;
+            }
+
+            ownedMinions.Add((companion.RowId, companion.Singular.ToString()));
+        }
+
+        needsRefresh = false;
     }
 
     private void DrawMinionOption(string label, uint rowId, bool isSelected)

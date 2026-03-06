@@ -13,7 +13,10 @@ public sealed class HousingLocation
     public bool IsApartment => ApartmentWing != 0;
     public int ApartmentWing => Plot switch { -126 => 1, -127 => 2, _ => 0 };
     public int Division => ApartmentWing != 0 ? ApartmentWing : (Plot > 30 ? 2 : 1);
-    public bool IsMeaningfulLocation => District != HousingDistrict.Unknown && Ward > 0 && (IsApartment ? Room > 0 : Plot > 0);
+    public bool IsExteriorWardLocation => IsInside == false && Ward > 0;
+    public bool IsMeaningfulLocation =>
+        (District != HousingDistrict.Unknown || Ward > 0) &&
+        (IsApartment ? Room > 0 : IsInside == false ? Ward > 0 : Plot > 0);
 
     private HousingLocation(sbyte plot, sbyte ward, short room, HousingDistrict district, bool? isInside)
     {
@@ -31,8 +34,8 @@ public sealed class HousingLocation
             282 or 283 or 284 or 384 or 423 or 608 => HousingDistrict.Mist,
             342 or 343 or 344 or 385 or 425 or 609 => HousingDistrict.LavenderBeds,
             345 or 346 or 347 or 386 or 424 or 610 => HousingDistrict.Goblet,
-            649 or 650 or 651 or 652 or 653 or 655 => HousingDistrict.Shirogane,
-            980 or 981 or 982 or 983 or 984 or 999 => HousingDistrict.Empyreum,
+            641 or 649 or 650 or 651 or 652 or 653 or 655 => HousingDistrict.Shirogane,
+            979 or 980 or 981 or 982 or 983 or 984 or 999 => HousingDistrict.Empyreum,
             _ => HousingDistrict.Unknown,
         };
     }

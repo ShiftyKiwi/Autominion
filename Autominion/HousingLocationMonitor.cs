@@ -100,7 +100,7 @@ public sealed class HousingLocationMonitor : IDisposable
             return;
         }
 
-        if (plugin.Configuration.SummonInHousingExteriors)
+        if (location.IsExteriorWardLocation && plugin.Configuration.SummonInHousingExteriors)
         {
             controller.RequestAction(MinionAction.Summon, location);
         }
