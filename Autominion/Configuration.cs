@@ -9,9 +9,8 @@ public sealed class Configuration : IPluginConfiguration
     public int Version { get; set; } = 1;
 
     public bool PluginEnabled { get; set; } = true;
-    public bool SummonInHousingExteriors { get; set; } = true;
-    public bool DismissInHousingInteriors { get; set; } = true;
-    public bool DismissInApartments { get; set; } = true;
+    public bool DismissOnPlotEntry { get; set; } = true;
+    public bool SummonOnPlotExit { get; set; } = true;
     public bool UseMinionRouletteForSummon { get; set; } = true;
     public uint SelectedMinionId { get; set; } = 0;
     public bool OnlyActOnLocationChanges { get; set; } = true;

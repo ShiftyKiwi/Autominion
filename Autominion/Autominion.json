@@ -3,7 +3,7 @@
   "Name": "Autominion",
   "InternalName": "Autominion",
   "Punchline": "Summons or dismisses minions based on housing state.",
-  "Description": "Automatically summons a minion on housing exteriors and dismisses it inside housing interiors or apartments. Main command: /autominion",
+  "Description": "Automatically dismisses a minion when entering a housing plot and summons one when leaving a housing plot. Main command: /autominion",
   "ApplicableVersion": "any",
   "DalamudApiLevel": 14,
   "RepoUrl": "https://github.com/ShiftyKiwi/Autominion",

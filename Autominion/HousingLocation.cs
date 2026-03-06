@@ -14,6 +14,7 @@ public sealed class HousingLocation
     public int ApartmentWing => Plot switch { -126 => 1, -127 => 2, _ => 0 };
     public int Division => ApartmentWing != 0 ? ApartmentWing : (Plot > 30 ? 2 : 1);
     public bool IsExteriorWardLocation => IsInside == false && Ward > 0;
+    public bool IsOnPlot => IsInside == false && Plot > 0;
     public bool IsMeaningfulLocation =>
         (District != HousingDistrict.Unknown || Ward > 0) &&
         (IsApartment ? Room > 0 : IsInside == false ? Ward > 0 : Plot > 0);
@@ -66,16 +67,6 @@ public sealed class HousingLocation
     public string GetLocationKey()
     {
         return $"{(int)District}:{Ward}:{Plot}:{Room}:{Division}:{IsInside}";
-    }
-
-    public bool IsInteriorLike()
-    {
-        if (IsApartment)
-        {
-            return true;
-        }
-
-        return IsInside == true;
     }
 
     public override string ToString()

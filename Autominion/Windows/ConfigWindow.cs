@@ -18,7 +18,7 @@ public sealed class ConfigWindow : Window, IDisposable
     public ConfigWindow(Plugin plugin) : base("Autominion Settings###AutominionConfig")
     {
         this.plugin = plugin;
-        Size = new Vector2(520, 420);
+        Size = new Vector2(520, 400);
         SizeCondition = ImGuiCond.FirstUseEver;
     }
 
@@ -31,9 +31,8 @@ public sealed class ConfigWindow : Window, IDisposable
         var configuration = plugin.Configuration;
 
         DrawCheckbox("Enable plugin", configuration.PluginEnabled, value => configuration.PluginEnabled = value);
-        DrawCheckbox("Summon while on housing exteriors", configuration.SummonInHousingExteriors, value => configuration.SummonInHousingExteriors = value);
-        DrawCheckbox("Dismiss inside house interiors", configuration.DismissInHousingInteriors, value => configuration.DismissInHousingInteriors = value);
-        DrawCheckbox("Dismiss inside apartments", configuration.DismissInApartments, value => configuration.DismissInApartments = value);
+        DrawCheckbox("Dismiss when entering a housing plot", configuration.DismissOnPlotEntry, value => configuration.DismissOnPlotEntry = value);
+        DrawCheckbox("Summon when leaving a housing plot", configuration.SummonOnPlotExit, value => configuration.SummonOnPlotExit = value);
         DrawCheckbox("Allow roulette fallback for summon", configuration.UseMinionRouletteForSummon, value => configuration.UseMinionRouletteForSummon = value);
         DrawCheckbox("Only react to location changes", configuration.OnlyActOnLocationChanges, value => configuration.OnlyActOnLocationChanges = value);
         DrawCheckbox("Do not act while between areas", configuration.SuppressBetweenAreas, value => configuration.SuppressBetweenAreas = value);
@@ -41,7 +40,7 @@ public sealed class ConfigWindow : Window, IDisposable
         DrawCheckbox("Show debug details in main window", configuration.ShowDebugDetails, value => configuration.ShowDebugDetails = value);
 
         ImGui.Separator();
-        ImGui.Text("Preferred summon target");
+        ImGui.Text("Preferred summon target after leaving plot");
 
         if (ImGui.Button("Refresh Owned Minions"))
         {

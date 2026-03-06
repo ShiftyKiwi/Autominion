@@ -28,6 +28,7 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.Text(configuration.PluginEnabled ? "Status: enabled" : "Status: disabled");
         ImGui.Text($"Current territory: {plugin.LocationMonitor.CurrentTerritoryName}");
         ImGui.Text($"Housing location: {(location is null ? "none" : location)}");
+        ImGui.Text($"On housing plot: {plugin.LocationMonitor.IsCurrentlyOnPlot}");
         ImGui.Text($"Configured summon target: {plugin.MinionController.GetConfiguredMinionLabel()}");
         ImGui.Text($"Current minion: {plugin.MinionController.CurrentMinionLabel}");
         ImGui.Text($"Pending action: {plugin.MinionController.PendingActionLabel}");

@@ -9,11 +9,13 @@ public sealed class HousingLocationMonitor : IDisposable
     private readonly Plugin plugin;
     private readonly MinionController controller;
     private DateTimeOffset lastPoll = DateTimeOffset.MinValue;
+    private bool? lastWasOnPlot;
 
     public HousingLocation? LastLocation { get; private set; }
     public string? LastLocationKey { get; private set; }
     public ushort LastTerritoryId { get; private set; }
     public string CurrentTerritoryName { get; private set; } = "Unknown";
+    public bool IsCurrentlyOnPlot { get; private set; }
 
     public HousingLocationMonitor(Plugin plugin, MinionController controller)
     {
@@ -70,6 +72,7 @@ public sealed class HousingLocationMonitor : IDisposable
 
         var location = HousingLocation.FromCurrentLocation(territory);
         var locationKey = location?.GetLocationKey();
+        var isOnPlot = location?.IsOnPlot == true;
 
         if (!force && plugin.Configuration.OnlyActOnLocationChanges && locationKey == LastLocationKey)
         {
@@ -78,29 +81,23 @@ public sealed class HousingLocationMonitor : IDisposable
 
         LastLocation = location;
         LastLocationKey = locationKey;
+        IsCurrentlyOnPlot = isOnPlot;
 
-        if (location is null || !location.IsMeaningfulLocation)
+        var previousState = lastWasOnPlot;
+        lastWasOnPlot = isOnPlot;
+
+        if (previousState is null || location is null)
         {
             return;
         }
 
-        if (location.IsInteriorLike())
+        if (!previousState.Value && isOnPlot && plugin.Configuration.DismissOnPlotEntry)
         {
-            if (location.IsApartment && !plugin.Configuration.DismissInApartments)
-            {
-                return;
-            }
-
-            if (!location.IsApartment && !plugin.Configuration.DismissInHousingInteriors)
-            {
-                return;
-            }
-
             controller.RequestAction(MinionAction.Dismiss, location);
             return;
         }
 
-        if (location.IsExteriorWardLocation && plugin.Configuration.SummonInHousingExteriors)
+        if (previousState.Value && !isOnPlot && plugin.Configuration.SummonOnPlotExit)
         {
             controller.RequestAction(MinionAction.Summon, location);
         }
