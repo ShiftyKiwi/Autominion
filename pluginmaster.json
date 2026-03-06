@@ -15,9 +15,9 @@
       "minion",
       "automation"
     ],
-    "DownloadLinkInstall": "https://raw.githubusercontent.com/ShiftyKiwi/Autominion/main/latest.zip",
-    "DownloadLinkUpdate": "https://raw.githubusercontent.com/ShiftyKiwi/Autominion/main/latest.zip",
-    "DownloadLinkTesting": "https://raw.githubusercontent.com/ShiftyKiwi/Autominion/main/latest.zip",
+    "DownloadLinkInstall": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.1/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.1/latest.zip",
+    "DownloadLinkTesting": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.1/latest.zip",
     "IsTestingExclusive": false
   }
 ]
