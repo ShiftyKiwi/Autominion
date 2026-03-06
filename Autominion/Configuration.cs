@@ -13,6 +13,7 @@ public sealed class Configuration : IPluginConfiguration
     public bool DismissInHousingInteriors { get; set; } = true;
     public bool DismissInApartments { get; set; } = true;
     public bool UseMinionRouletteForSummon { get; set; } = true;
+    public uint SelectedMinionId { get; set; } = 0;
     public bool OnlyActOnLocationChanges { get; set; } = true;
     public bool SuppressInDuty { get; set; } = true;
     public bool SuppressBetweenAreas { get; set; } = true;

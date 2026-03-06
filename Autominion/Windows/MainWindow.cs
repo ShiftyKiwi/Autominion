@@ -12,7 +12,7 @@ public sealed class MainWindow : Window, IDisposable
     public MainWindow(Plugin plugin) : base("Autominion###AutominionMain")
     {
         this.plugin = plugin;
-        Size = new Vector2(480, 320);
+        Size = new Vector2(520, 340);
         SizeCondition = ImGuiCond.FirstUseEver;
     }
 
@@ -28,6 +28,7 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.Text(configuration.PluginEnabled ? "Status: enabled" : "Status: disabled");
         ImGui.Text($"Current territory: {plugin.LocationMonitor.CurrentTerritoryName}");
         ImGui.Text($"Housing location: {(location is null ? "none" : location)}");
+        ImGui.Text($"Configured summon target: {plugin.MinionController.GetConfiguredMinionLabel()}");
         ImGui.Text($"Current minion: {plugin.MinionController.CurrentMinionLabel}");
         ImGui.Text($"Pending action: {plugin.MinionController.PendingActionLabel}");
         ImGui.TextWrapped($"Last action: {plugin.MinionController.LastActionMessage}");

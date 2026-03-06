@@ -3,6 +3,7 @@ using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using Lumina.Excel.Sheets;
 
 namespace Autominion;
 
@@ -29,7 +30,7 @@ public sealed class MinionController : IDisposable
     public string LastActionMessage { get; private set; } = "No action yet.";
     public string PendingActionLabel => pendingAction == MinionAction.None ? "none" : pendingAction.ToString();
     public string LastRequestedActionLabel { get; private set; } = "none";
-    public string CurrentMinionLabel => GetLocalPlayer()?.CurrentMinion?.RowId is { } rowId && rowId != 0 ? $"Row {rowId}" : "none";
+    public string CurrentMinionLabel => GetMinionName(GetLocalPlayer()?.CurrentMinion?.RowId ?? 0);
 
     public MinionController(Plugin plugin)
     {
@@ -52,6 +53,13 @@ public sealed class MinionController : IDisposable
         pendingLocation = location;
         LastRequestedActionLabel = $"{action} @ {location}";
         StartCycle();
+    }
+
+    public string GetConfiguredMinionLabel()
+    {
+        return plugin.Configuration.SelectedMinionId == 0
+            ? "Minion Roulette"
+            : GetMinionName(plugin.Configuration.SelectedMinionId);
     }
 
     private void StartCycle()
@@ -136,9 +144,27 @@ public sealed class MinionController : IDisposable
             return;
         }
 
+        var selectedMinionId = plugin.Configuration.SelectedMinionId;
+        if (selectedMinionId != 0)
+        {
+            if (ActionAvailable(ActionType.Companion, selectedMinionId) && CastAction(ActionType.Companion, selectedMinionId))
+            {
+                LastActionMessage = $"Summon requested for {GetMinionName(selectedMinionId)} at {pendingLocation}.";
+                StopCycle();
+                return;
+            }
+
+            if (!plugin.Configuration.UseMinionRouletteForSummon)
+            {
+                LastActionMessage = $"Specific minion summon failed for {GetMinionName(selectedMinionId)} and roulette fallback is disabled.";
+                StopCycle();
+                return;
+            }
+        }
+
         if (!plugin.Configuration.UseMinionRouletteForSummon)
         {
-            LastActionMessage = "Summon skipped because roulette summon is disabled.";
+            LastActionMessage = "Summon skipped because roulette summon is disabled and no specific minion was configured.";
             StopCycle();
             return;
         }
@@ -153,7 +179,7 @@ public sealed class MinionController : IDisposable
             return;
         }
 
-        LastActionMessage = $"Summon requested for {pendingLocation}.";
+        LastActionMessage = $"Roulette summon requested for {pendingLocation}.";
         StopCycle();
     }
 
@@ -177,7 +203,7 @@ public sealed class MinionController : IDisposable
             return;
         }
 
-        LastActionMessage = $"Dismiss requested for minion {currentMinionId} at {pendingLocation}.";
+        LastActionMessage = $"Dismiss requested for {GetMinionName(currentMinionId)} at {pendingLocation}.";
         StopCycle();
     }
 
@@ -214,5 +240,17 @@ public sealed class MinionController : IDisposable
         {
             return false;
         }
+    }
+
+    private static string GetMinionName(uint rowId)
+    {
+        if (rowId == 0)
+        {
+            return "none";
+        }
+
+        return Plugin.DataManager.GetExcelSheet<Companion>().TryGetRow(rowId, out var companion) && !companion.Singular.IsEmpty
+            ? companion.Singular.ToString()
+            : $"Row {rowId}";
     }
 }
