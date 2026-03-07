@@ -2,7 +2,7 @@
 <Project Sdk="Dalamud.NET.Sdk/14.0.2">
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <Version>0.0.0.4</Version>
+    <Version>0.0.0.5</Version>
     <MinimumDalamudVersion>14.0.0</MinimumDalamudVersion>
     <PackageProjectUrl>https://github.com/ShiftyKiwi/Autominion</PackageProjectUrl>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>

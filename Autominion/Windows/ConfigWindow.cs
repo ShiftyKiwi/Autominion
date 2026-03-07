@@ -18,7 +18,7 @@ public sealed class ConfigWindow : Window, IDisposable
     public ConfigWindow(Plugin plugin) : base("Autominion Settings###AutominionConfig")
     {
         this.plugin = plugin;
-        Size = new Vector2(520, 400);
+        Size = new Vector2(520, 460);
         SizeCondition = ImGuiCond.FirstUseEver;
     }
 
@@ -47,13 +47,17 @@ public sealed class ConfigWindow : Window, IDisposable
             needsRefresh = true;
         }
 
+        RefreshOwnedMinionsIfNeeded();
+
+        ImGui.SameLine();
+        ImGui.TextDisabled($"{ownedMinions.Count} owned minions");
+
         ImGui.SetNextItemWidth(-1f);
         ImGui.InputTextWithHint("##minionFilter", "Filter owned minions", ref minionFilter, 128);
 
-        RefreshOwnedMinionsIfNeeded();
+        ImGui.Text($"Selected: {plugin.MinionController.GetConfiguredMinionLabel()}");
 
-        var selectedLabel = plugin.MinionController.GetConfiguredMinionLabel();
-        if (ImGui.BeginCombo("Select Minion", selectedLabel))
+        if (ImGui.BeginListBox("##OwnedMinions", new Vector2(-1f, 180f)))
         {
             DrawMinionOption("Minion Roulette", 0, configuration.SelectedMinionId == 0);
 
@@ -64,10 +68,10 @@ public sealed class ConfigWindow : Window, IDisposable
                     continue;
                 }
 
-                DrawMinionOption($"{name}##{rowId}", rowId, configuration.SelectedMinionId == rowId);
+                DrawMinionOption(name, rowId, configuration.SelectedMinionId == rowId);
             }
 
-            ImGui.EndCombo();
+            ImGui.EndListBox();
         }
     }
 
