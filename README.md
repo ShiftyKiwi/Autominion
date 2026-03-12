@@ -19,7 +19,7 @@ Autominion is a Dalamud plugin for FFXIV that dismisses your minion when you ste
 
 - Dalamud API 14
 - .NET 10
-- FFXIV patch 7.45 target
+- FFXIV Patch 7.45 HotFixes validated
 
 ## Build
 
