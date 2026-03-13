@@ -4,9 +4,9 @@
     "Name": "Autominion",
     "Punchline": "Dismisses on plot entry, summons on plot exit.",
     "Description": "Automatically dismisses a minion when entering a housing plot and summons one when leaving that plot. Main command: /autominion",
-    "Changelog": "Validated for FFXIV Patch 7.45 HotFixes on March 11, 2026.",
+    "Changelog": "Fixed interior transition handling so entering a house from a plot does not trigger a summon.",
     "InternalName": "Autominion",
-    "AssemblyVersion": "0.0.0.6",
+    "AssemblyVersion": "0.0.0.7",
     "ApplicableVersion": "any",
     "DalamudApiLevel": 14,
     "RepoUrl": "https://github.com/ShiftyKiwi/Autominion",
@@ -15,9 +15,9 @@
       "minion",
       "automation"
     ],
-    "DownloadLinkInstall": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.6/latest.zip",
-    "DownloadLinkUpdate": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.6/latest.zip",
-    "DownloadLinkTesting": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.6/latest.zip",
+    "DownloadLinkInstall": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.7/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.7/latest.zip",
+    "DownloadLinkTesting": "https://github.com/ShiftyKiwi/Autominion/releases/download/v0.0.0.7/latest.zip",
     "IsTestingExclusive": false
   }
 ]

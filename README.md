@@ -6,6 +6,7 @@ Autominion is a Dalamud plugin for FFXIV that dismisses your minion when you ste
 
 - Detects transitions onto and off of housing plots.
 - Dismisses the currently summoned minion when you enter a plot.
+- Keeps minions dismissed when you move from a plot into a house/apartment interior.
 - Summons your selected owned minion, or Minion Roulette if configured, when you leave a plot.
 - Uses delayed post-transition action checks to avoid firing during bad game states.
 
@@ -31,6 +32,7 @@ Autominion is a Dalamud plugin for FFXIV that dismisses your minion when you ste
 
 Recommended checks:
 - Stand in a housing ward street, then step onto a plot and confirm dismissal.
+- Enter the house interior from the plot and confirm it stays dismissed (no resummon).
 - Step back off the plot and confirm summon.
 - Pick a specific owned minion in settings and verify that minion is the one summoned after plot exit.
 - Enable roulette fallback and confirm it only applies when no specific minion is selected or the specific summon path fails.

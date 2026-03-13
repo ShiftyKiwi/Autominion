@@ -97,9 +97,23 @@ public sealed class HousingLocationMonitor : IDisposable
             return;
         }
 
-        if (previousState.Value && !isOnPlot && plugin.Configuration.SummonOnPlotExit)
+        if (previousState.Value && !isOnPlot)
         {
-            controller.RequestAction(MinionAction.Summon, location);
+            // Entering the interior from a plot should keep minions dismissed, never summon.
+            if (location.IsInside == true || location.IsApartment)
+            {
+                if (plugin.Configuration.DismissOnPlotEntry)
+                {
+                    controller.RequestAction(MinionAction.Dismiss, location);
+                }
+
+                return;
+            }
+
+            if (plugin.Configuration.SummonOnPlotExit && location.IsInside == false)
+            {
+                controller.RequestAction(MinionAction.Summon, location);
+            }
         }
     }
 
