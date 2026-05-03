@@ -13,7 +13,7 @@ public sealed class HousingLocationMonitor : IDisposable
 
     public HousingLocation? LastLocation { get; private set; }
     public string? LastLocationKey { get; private set; }
-    public ushort LastTerritoryId { get; private set; }
+    public uint LastTerritoryId { get; private set; }
     public string CurrentTerritoryName { get; private set; } = "Unknown";
     public bool IsCurrentlyOnPlot { get; private set; }
 
@@ -45,7 +45,7 @@ public sealed class HousingLocationMonitor : IDisposable
         EvaluateCurrentLocation(force: true);
     }
 
-    private void OnTerritoryChanged(ushort territory)
+    private void OnTerritoryChanged(uint territory)
     {
         LastTerritoryId = territory;
         CurrentTerritoryName = GetTerritoryName(territory);
@@ -117,7 +117,7 @@ public sealed class HousingLocationMonitor : IDisposable
         }
     }
 
-    private string GetTerritoryName(ushort territoryId)
+    private string GetTerritoryName(uint territoryId)
     {
         return Plugin.DataManager.GetExcelSheet<TerritoryType>().TryGetRow(territoryId, out var territory)
             ? territory.PlaceName.Value.Name.ToString()

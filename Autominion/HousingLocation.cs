@@ -28,7 +28,7 @@ public sealed class HousingLocation
         IsInside = isInside;
     }
 
-    public static HousingDistrict ConvertToDistrict(ushort territory)
+    public static HousingDistrict ConvertToDistrict(uint territory)
     {
         return territory switch
         {
@@ -41,7 +41,7 @@ public sealed class HousingLocation
         };
     }
 
-    public static unsafe HousingLocation? FromCurrentLocation(ushort territory)
+    public static unsafe HousingLocation? FromCurrentLocation(uint territory)
     {
         try
         {
